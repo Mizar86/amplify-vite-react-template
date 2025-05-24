@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import SiriWave from "react-siriwave";
 
 const client = generateClient<Schema>();
 
 function App() {
   const { user, signOut } = useAuthenticator();
-
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
@@ -26,6 +27,28 @@ function App() {
 
   return (
     <main>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}>
+        <SiriWave
+          style="ios9"
+          width={window.innerWidth}
+          height={window.innerHeight}
+          amplitude={0.2}
+          speed={0.05}
+          color="#ffffff"
+          cover={true}
+          autostart={true}
+          pixelDepth={0.02}
+          lerpSpeed={0.01}
+          curveDefinition={[
+            { attenuation: -2, lineWidth: 1, opacity: 0.3 },
+            { attenuation: -6, lineWidth: 1, opacity: 0.4 },
+            { attenuation: 4, lineWidth: 1, opacity: 0.6 },
+            { attenuation: 2, lineWidth: 1, opacity: 0.3 },
+            { attenuation: 1, lineWidth: 1.5, opacity: 0.1 }
+          ]}
+        />
+      </div>
+      
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={createTodo}>+ new</button>
       <ul>
