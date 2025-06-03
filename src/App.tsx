@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import Siriwave from 'react-siriwave';
 
 const client = generateClient<Schema>();
 
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <main>
+      <Siriwave cover={true} theme="ios" color="#cccccc" speed={0.1} amplitude={0.5} frequency={4} />
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={createTodo}>+ new</button>
       <ul>
